@@ -1,6 +1,5 @@
 package com.company;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Scanner;
 

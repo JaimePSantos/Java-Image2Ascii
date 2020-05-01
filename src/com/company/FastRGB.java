@@ -1,9 +1,9 @@
 package com.company;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
-public class FastRGB
-{
+public class FastRGB {
 
     private int width;
     private int height;
@@ -11,28 +11,24 @@ public class FastRGB
     private int pixelLength;
     private byte[] pixels;
 
-    FastRGB(BufferedImage image)
-    {
+    FastRGB(BufferedImage image) {
 
         pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         width = image.getWidth();
         height = image.getHeight();
         hasAlphaChannel = image.getAlphaRaster() != null;
         pixelLength = 3;
-        if (hasAlphaChannel)
-        {
+        if ( hasAlphaChannel ) {
             pixelLength = 4;
         }
 
     }
 
-    int getRGB(int x, int y)
-    {
+    int getRGB(int x, int y) {
         int pos = (y * pixelLength * width) + (x * pixelLength);
 
         int argb = -16777216; // 255 alpha
-        if (hasAlphaChannel)
-        {
+        if ( hasAlphaChannel ) {
             argb = (((int) pixels[pos++] & 0xff) << 24); // alpha
         }
 
