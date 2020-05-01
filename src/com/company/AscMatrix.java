@@ -36,4 +36,16 @@ public class AscMatrix {
         return this.ascMatrix;
     }
 
+    public char[][] brightnessToAscii(boolean file){
+        int a = 0;
+        for(int row = 0; row<this.height;row++){
+            for(int col = 0; col<this.height; col++){
+                a = (int)Math.floor(this.brightMatrix[row][col]/4);
+                this.ascMatrix[row][col] = ascCodeArray[a];
+                System.out.print(this.ascMatrix[row][col]);
+            }
+            System.out.println("");
+        }
+        return this.ascMatrix;
+    }
 }

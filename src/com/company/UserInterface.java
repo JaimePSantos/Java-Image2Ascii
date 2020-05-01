@@ -45,6 +45,8 @@ public class UserInterface {
             }else if(cmd.equals("size".toLowerCase())){
                 System.out.println(img.getWidth()+"x"+img.getHeight());
                 continue;
+            }else if(cmd.equals("ascii to file".toLowerCase())){
+
             }
             else{
                 System.out.println("Invalid command.");
@@ -61,6 +63,7 @@ public class UserInterface {
         System.out.println("stop: stops the program.");
         System.out.println("new image: loads a new image.");
         System.out.println("ascii: converts the image into ASCII-art and prints it.");
+        System.out.println("ascii to file: converts the image into ASCII-art and prints it to a file.");
         System.out.println("size: prints the size of the loaded image.");
         System.out.println("resize: resizes the image to new width and height.");
 

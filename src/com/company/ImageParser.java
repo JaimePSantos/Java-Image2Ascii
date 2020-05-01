@@ -25,6 +25,7 @@ public class ImageParser {
     }
 
     public ImageParser(BufferedImage image){
+
         this.img = image;
     }
 
@@ -78,9 +79,13 @@ public class ImageParser {
     }
 
     public void printAsci(){
+
         this.ascMatrix.brightnessToAscii();
     }
 
+    public void printAsci(boolean file){
+        this.ascMatrix.brightnessToAscii();
+    }
     public ImageParser resizeImage(String imageName,Integer imgWidth, Integer imgHeight) throws IOException {
         BufferedImage originalImage = this.img;
         int type = originalImage.getType();
