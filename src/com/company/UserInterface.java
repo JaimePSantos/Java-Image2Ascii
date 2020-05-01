@@ -1,9 +1,7 @@
 package com.company;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Scanner;
 
 public class UserInterface {

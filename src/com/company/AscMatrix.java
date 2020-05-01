@@ -19,7 +19,6 @@ public class AscMatrix {
         this.ascMatrix = new char[this.height][this.width];
         this.ascCodeArray = new char[this.ascCode.length()];
         for(int i=0;i<ascCode.length();i++){
-            System.out.println(ascCode.charAt(i));
             this.ascCodeArray[i] = this.ascCode.charAt(i);
         }
     }
