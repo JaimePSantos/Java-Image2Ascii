@@ -16,9 +16,7 @@ public class UserInterface {
     public void start() throws IOException {
         System.out.println("Picture Name:");
         String firstPic = this.scan.nextLine();
-        String getPath = UserInterface.class.getResource(firstPic).toString();
-        System.out.println(getPath);
-        this.img = new ImageParser(getPath);
+        this.img = new ImageParser(firstPic);
         this.availableCmds();
         String cmd ="";
 

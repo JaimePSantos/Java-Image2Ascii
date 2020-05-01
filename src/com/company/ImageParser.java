@@ -4,32 +4,26 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.DataBufferByte;
+import java.net.URL;
 
 
 public class ImageParser {
     private BufferedImage img;
-    private File input;
-    private File output;
-
+    private URL path;
     public ImageParser(String fileName) throws IOException {
-        this.input=new File(ImageParser.class.getResource(fileName).toString());
-        this.img = ImageIO.read(this.input);
+        this.path = getClass().getResource("/resources/"+fileName);
+        this.img = ImageIO.read(this.path);
         System.out.println("Image successfully loaded.");
-        this.output=null;
-    }
-
-    public ImageParser(){
-        this.input = null;
-        this.img = null;
-        this.output = null;
     }
 
 
     public void imgOut(String outputFile,String format) throws IOException{
         outputFile+="."+format;
-        this.output = new File(ImageParser.class.getResource(outputFile).toString());
-        ImageIO.write(this.img,format,this.output);
-        System.out.println("Created: "+this.output.getAbsolutePath());
+        String cam = getClass().getResource("/resources/").toString().replace("/","\\");
+        System.out.println(cam);
+        File path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
+        ImageIO.write(this.img,format,path);
+        System.out.println("Created: "+path.getAbsolutePath());
     }
 
     public int getWidth(){

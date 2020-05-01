@@ -21,9 +21,9 @@ public class Main {
 //        String fileName = scanner.nextLine();
 //        String path =  Main.class.getResource(fileName).toString();
 //        ImageParser image = new ImageParser(fileName);
-//
+//        image.imgOut("af123","jpg");
 //        int[][] array1 = image.getBrightness();
-//
+
 //        image.printAsci(image.getBrightness());
 
     }
