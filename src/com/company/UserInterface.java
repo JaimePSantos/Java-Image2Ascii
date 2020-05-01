@@ -21,20 +21,31 @@ public class UserInterface {
         String cmd ="";
 
         while(true){
-
+            System.out.println("");
             System.out.println("Enter a command:");
             System.out.print(">");
             cmd = this.scan.nextLine().toLowerCase();
             if(cmd.equals("stop".toLowerCase())){
                 break;
+            }else if(cmd.equals("help".toLowerCase())){
+              this.availableCmds();
+              continue;
             }else if(cmd.equals("new image")){
                 this.start();
             }else if(cmd.equals("ascii".toLowerCase())|cmd.equals("ascii".toLowerCase())){
                 img.printAsci(img.getBrightness());
                 continue;
-            }
-            else if(cmd.equals("resize")){
-                this.resize(img,50,50);
+            }else if(cmd.equals("resize")){
+                System.out.println("New width?");
+                int newWidth = Integer.valueOf(this.scan.nextLine());
+                System.out.println("New height?");
+                int newHeight = Integer.valueOf(this.scan.nextLine());
+                System.out.println("Name for resized image:");
+                String imageName = this.scan.nextLine();
+                this.resize(img,newWidth,newHeight,imageName);
+                continue;
+            }else if(cmd.equals("size".toLowerCase())){
+                System.out.println(img.getWidth()+"x"+img.getHeight());
                 continue;
             }
             else{
@@ -46,18 +57,20 @@ public class UserInterface {
     }
 
     public void availableCmds(){
+        System.out.println("");
         System.out.println("Commands:");
+        System.out.println("help: lists available commands.");
         System.out.println("stop: stops the program.");
         System.out.println("new image: loads a new image.");
-        System.out.println("new file: prompts the program to ask for a new file.");
         System.out.println("ascii: converts the image into ASCII-art and prints it.");
+        System.out.println("size: prints the size of the loaded image.");
+        System.out.println("resize: resizes the image to new width and height.");
 
     }
 
-    public void resize(ImageParser img, Integer imgWidth, Integer imgHeight) throws IOException {
+    public void resize(ImageParser img, Integer imgWidth, Integer imgHeight,String imageName) throws IOException {
         if(imgWidth>0&&imgHeight>0){
-            img.resizeImage(imgWidth,imgHeight);
-//            img.imgOut("merotest1","jpg",true);
+            img.resizeImage(imageName,imgWidth,imgHeight);
         }
 
     }

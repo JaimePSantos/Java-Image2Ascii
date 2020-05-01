@@ -62,48 +62,6 @@ public class ImageParser {
         return this.img.getHeight();
     }
 
-    public int[][] pixelDataArray() {
-
-        final byte[] pixels = ((DataBufferByte) this.img.getRaster().getDataBuffer()).getData();
-        final int width = this.img.getWidth();
-        final int height = this.img.getHeight();
-        final boolean hasAlphaChannel = this.img.getAlphaRaster() != null;
-
-        int[][] result = new int[height][width];
-        if (hasAlphaChannel) {
-            final int pixelLength = 4;
-            for (int pixel = 0, row = 0, col = 0; pixel + 3 < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
-                argb += ((int) pixels[pixel + 1] & 0xff); // blue
-                argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
-                result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
-            }
-        } else {
-            final int pixelLength = 3;
-            for (int pixel = 0, row = 0, col = 0; pixel + 2 < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += -16777216; // 255 alpha
-                argb += ((int) pixels[pixel] & 0xff); // blue
-                argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-                result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
-            }
-        }
-
-        return result;
-    }
 
     public int[][] getBrightness(){
         int w = this.img.getWidth();
@@ -144,7 +102,7 @@ public class ImageParser {
         }
     }
 
-    public BufferedImage resizeImage(Integer imgWidth, Integer imgHeight) throws IOException {
+    public ImageParser resizeImage(String imageName,Integer imgWidth, Integer imgHeight) throws IOException {
         BufferedImage originalImage = this.img;
         int type = originalImage.getType();
         BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
@@ -152,11 +110,10 @@ public class ImageParser {
         g.drawImage(originalImage, 0, 0, imgWidth, imgHeight, null);
         g.dispose();
         ImageParser resImg = new ImageParser(resizedImage);
-//        File path = new File("./out/production/AscImage/resources/merotest_resize.jpg");
-//        ImageIO.write(resizedImage,"jpg",path);
-        resImg.imgOut("merotest1","jpg",true);
 
-        return resizedImage;
+        resImg.imgOut(imageName,"jpg",true);
+
+        return resImg;
     }
 
 
