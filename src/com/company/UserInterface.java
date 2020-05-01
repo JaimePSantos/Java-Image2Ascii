@@ -33,7 +33,7 @@ public class UserInterface {
             }else if(cmd.equals("new image")){
                 this.start();
             }else if(cmd.equals("ascii".toLowerCase())|cmd.equals("ascii".toLowerCase())){
-                img.printAsci(img.getBrightness());
+                img.printAsci();
                 continue;
             }else if(cmd.equals("resize")){
                 System.out.println("New width?");

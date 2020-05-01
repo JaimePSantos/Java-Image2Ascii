@@ -4,18 +4,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import java.awt.image.DataBufferByte;
 import java.net.URL;
 
 
 public class ImageParser {
     private BufferedImage img;
     private URL path;
+    private AscMatrix ascMatrix;
+
     public ImageParser(String fileName) throws IOException {
         this.path = getClass().getResource("/resources/"+fileName);
-        System.out.println(this.path.toString());
         this.img = ImageIO.read(this.path);
-        System.out.println("Image successfully loaded.");
+        System.out.println("Image successfully loaded: "+this.path.toString());
+        this.ascMatrix = new AscMatrix(this);
     }
 
     public ImageParser(){
@@ -80,26 +81,8 @@ public class ImageParser {
         return brightness;
     }
 
-    public void printAsci(int[][] brightness){
-        String string = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-        char[] ch = new char[string.length()];
-
-        for(int i = 0; i< string.length();i++){
-            ch[i] = string.charAt(i);
-        }
-
-        int w = this.img.getWidth();
-        int h = this.img.getHeight();
-        char[][] brightAscii = new char[h][w];
-
-        for(int row = 0; row < h;row++) {
-            for (int col = 0; col < h; col++) {
-                int a = (int)Math.floor(brightness[row][col]/4);
-                brightAscii[row][col] = ch[a];
-                System.out.print(brightAscii[row][col]);
-            }
-            System.out.println("");
-        }
+    public void printAsci(){
+        this.ascMatrix.brightnessToAscii();
     }
 
     public ImageParser resizeImage(String imageName,Integer imgWidth, Integer imgHeight) throws IOException {
