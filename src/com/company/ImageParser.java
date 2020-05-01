@@ -10,10 +10,18 @@ public class ImageParser {
     private BufferedImage img;
     private File input;
     private File output;
+
     public ImageParser(String fileName) throws IOException {
         this.input=new File(ImageParser.class.getResource(fileName).toString());
         this.img = ImageIO.read(this.input);
         System.out.println("Image successfully loaded.");
+        this.output=null;
+    }
+
+    public ImageParser(){
+        this.input = null;
+        this.img = null;
+        this.output = null;
     }
 
 
