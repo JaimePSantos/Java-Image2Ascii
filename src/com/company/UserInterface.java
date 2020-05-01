@@ -46,7 +46,7 @@ public class UserInterface {
                 System.out.println(img.getWidth()+"x"+img.getHeight());
                 continue;
             }else if(cmd.equals("ascii to file".toLowerCase())){
-
+                continue;
             }
             else{
                 System.out.println("Invalid command.");

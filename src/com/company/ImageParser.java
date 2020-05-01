@@ -67,7 +67,7 @@ public class ImageParser {
         int[][] brightness = new int[h][w];
         for(int row = 0; row < h;row++){
             for(int col=0; col<h;col++){
-                int p = img.getRGB(col,row);
+                int p = this.img.getRGB(col,row);
                 int a = (p>>24)&0xff;
                 int r = (p>>16)&0xff;
                 int g = (p>>8)&0xff;
@@ -78,12 +78,31 @@ public class ImageParser {
         return brightness;
     }
 
-    public void printAsci(){
 
-        this.ascMatrix.brightnessToAscii();
+    public int[][] getBrightness(boolean opt){
+        if(opt==true){
+            int w = this.img.getWidth();
+            int h = this.img.getHeight();
+            int[][] brightness = new int[h][w];
+            FastRGB fastBright = new FastRGB(this.img);
+            for(int row = 0; row < h;row++){
+                for(int col=0; col<h;col++){
+                    int p = fastBright.getRGB(col,row);
+                    int a = (p>>24)&0xff;
+                    int r = (p>>16)&0xff;
+                    int g = (p>>8)&0xff;
+                    int b = p&0xff;
+                    brightness[row][col] = (r+g+b)/3;
+                }
+            }
+            return brightness;
+        }else{
+           return this.getBrightness();
+        }
+
     }
 
-    public void printAsci(boolean file){
+    public void printAsci(){
         this.ascMatrix.brightnessToAscii();
     }
     public ImageParser resizeImage(String imageName,Integer imgWidth, Integer imgHeight) throws IOException {
