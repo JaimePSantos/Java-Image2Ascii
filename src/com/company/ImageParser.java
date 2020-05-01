@@ -1,34 +1,64 @@
 package com.company;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.DataBufferByte;
+import java.net.URL;
 
 
 public class ImageParser {
     private BufferedImage img;
-    private File input;
-    private File output;
+    private URL path;
     public ImageParser(String fileName) throws IOException {
-        this.input=new File(ImageParser.class.getResource(fileName).toString());
-        this.img = ImageIO.read(this.input);
+        this.path = getClass().getResource("/resources/"+fileName);
+        System.out.println(this.path.toString());
+        this.img = ImageIO.read(this.path);
         System.out.println("Image successfully loaded.");
+    }
+
+    public ImageParser(){
+        this.img = null;
+        this.path = null;
+    }
+
+    public ImageParser(BufferedImage image){
+        this.img = image;
     }
 
 
     public void imgOut(String outputFile,String format) throws IOException{
         outputFile+="."+format;
-        this.output = new File(ImageParser.class.getResource(outputFile).toString());
-        ImageIO.write(this.img,format,this.output);
-        System.out.println("Created: "+this.output.getAbsolutePath());
+        String cam = getClass().getResource("/resources/").toString().replace("/","\\");
+        System.out.println(cam);
+        File path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
+        ImageIO.write(this.img,format,path);
+        System.out.println("Created: "+path.getAbsolutePath());
+    }
+
+    public void imgOut(String outputFile,String format,boolean resize) throws IOException{
+        outputFile+="_resize."+format;
+        String cam = getClass().getResource("/resources/").toString().replace("/","\\");
+        File path = null;
+
+        if(resize==true){
+            path = new File("./out/production/AscImage/resources/"+outputFile);
+        }else{
+            path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
+        }
+
+        ImageIO.write(this.img,format,path);
+        System.out.println("Created: "+path.getAbsolutePath());
     }
 
     public int getWidth(){
+
         return this.img.getWidth();
     }
 
     public int getHeight(){
+
         return this.img.getHeight();
     }
 
@@ -74,20 +104,6 @@ public class ImageParser {
 
         return result;
     }
-    public int[][] convertTo2DUsingGetRGB() {
-        int width = this.img.getWidth();
-        int height = this.img.getHeight();
-        FastRGB image = new FastRGB(this.img);
-        int[][] result = new int[height][width];
-
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                result[row][col] = image.getRGB(col, row);
-            }
-        }
-
-        return result;
-    }
 
     public int[][] getBrightness(){
         int w = this.img.getWidth();
@@ -127,5 +143,22 @@ public class ImageParser {
             System.out.println("");
         }
     }
+
+    public BufferedImage resizeImage(Integer imgWidth, Integer imgHeight) throws IOException {
+        BufferedImage originalImage = this.img;
+        int type = originalImage.getType();
+        BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, imgWidth, imgHeight, null);
+        g.dispose();
+        ImageParser resImg = new ImageParser(resizedImage);
+//        File path = new File("./out/production/AscImage/resources/merotest_resize.jpg");
+//        ImageIO.write(resizedImage,"jpg",path);
+        resImg.imgOut("merotest1","jpg",true);
+
+        return resizedImage;
+    }
+
+
 
 }
