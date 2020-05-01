@@ -2,6 +2,7 @@ package com.company;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.net.URL;
@@ -11,8 +12,11 @@ public class ImageParser {
     private BufferedImage img;
     private URL path;
     private AscMatrix ascMatrix;
+    private String imgName;
 
     public ImageParser(String fileName) throws IOException {
+        this.imgName = fileName;
+        fileName += ".jpg";
         this.path = getClass().getResource("/resources/"+fileName);
         this.img = ImageIO.read(this.path);
         System.out.println("Image successfully loaded: "+this.path.toString());
@@ -25,6 +29,7 @@ public class ImageParser {
     }
 
     public ImageParser(BufferedImage image){
+
         this.img = image;
     }
 
@@ -47,7 +52,6 @@ public class ImageParser {
 
     public void imgOut(String outputFile,String format,boolean resize) throws IOException{
         outputFile+="_resize."+format;
-        String cam = getClass().getResource("/resources/").toString().replace("/","\\");
         File path = null;
 
         if(resize==true){
@@ -66,7 +70,7 @@ public class ImageParser {
         int[][] brightness = new int[h][w];
         for(int row = 0; row < h;row++){
             for(int col=0; col<h;col++){
-                int p = img.getRGB(col,row);
+                int p = this.img.getRGB(col,row);
                 int a = (p>>24)&0xff;
                 int r = (p>>16)&0xff;
                 int g = (p>>8)&0xff;
@@ -77,8 +81,52 @@ public class ImageParser {
         return brightness;
     }
 
+
+    public int[][] getBrightness(boolean opt){
+        if(opt==true){
+            int w = this.img.getWidth();
+            int h = this.img.getHeight();
+            int[][] brightness = new int[h][w];
+            FastRGB fastBright = new FastRGB(this.img);
+            for(int row = 0; row < h;row++){
+                for(int col=0; col<h;col++){
+                    int p = fastBright.getRGB(col,row);
+                    int a = (p>>24)&0xff;
+                    int r = (p>>16)&0xff;
+                    int g = (p>>8)&0xff;
+                    int b = p&0xff;
+                    brightness[row][col] = (r+g+b)/3;
+                }
+            }
+            return brightness;
+        }else{
+           return this.getBrightness();
+        }
+
+    }
+
     public void printAsci(){
         this.ascMatrix.brightnessToAscii();
+    }
+
+    public void printAsci(boolean file) throws IOException {
+        if(file==true){
+            char[][] asciMatrix= this.ascMatrix.brightnessToAscii();
+            int h=this.img.getHeight();
+            FileWriter writer = new FileWriter(this.imgName+".txt");
+            for(int row = 0; row < h;row++) {
+                for (int col = 0; col < h; col++) {
+                    writer.write(asciMatrix[row][col]+"");
+                }
+                writer.write("\n");
+            }
+            writer.close();
+        }else{
+            this.printAsci();
+        }
+
+
+
     }
 
     public ImageParser resizeImage(String imageName,Integer imgWidth, Integer imgHeight) throws IOException {

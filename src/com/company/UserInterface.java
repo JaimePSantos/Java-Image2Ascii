@@ -31,7 +31,14 @@ public class UserInterface {
             }else if(cmd.equals("new image")){
                 this.start();
             }else if(cmd.equals("ascii".toLowerCase())|cmd.equals("ascii".toLowerCase())){
-                img.printAsci();
+                Boolean printToFile = false;
+                System.out.println("Would you like to print the ascii into a file?(Y/N)");
+                System.out.print(">");
+                cmd = this.scan.nextLine().toLowerCase();
+                if(cmd.equals("Y".toLowerCase())||cmd.equals("Yes".toLowerCase())){
+                    printToFile = true;
+                }
+                img.printAsci(printToFile);
                 continue;
             }else if(cmd.equals("resize")){
                 System.out.println("New width?");
@@ -46,6 +53,7 @@ public class UserInterface {
                 System.out.println(img.getWidth()+"x"+img.getHeight());
                 continue;
             }
+
             else{
                 System.out.println("Invalid command.");
                 continue;
