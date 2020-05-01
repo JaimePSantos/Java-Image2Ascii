@@ -1,4 +1,5 @@
 package com.company;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ public class ImageParser {
     private URL path;
     public ImageParser(String fileName) throws IOException {
         this.path = getClass().getResource("/resources/"+fileName);
+        System.out.println(this.path.toString());
         this.img = ImageIO.read(this.path);
         System.out.println("Image successfully loaded.");
     }
@@ -22,6 +24,21 @@ public class ImageParser {
         String cam = getClass().getResource("/resources/").toString().replace("/","\\");
         System.out.println(cam);
         File path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
+        ImageIO.write(this.img,format,path);
+        System.out.println("Created: "+path.getAbsolutePath());
+    }
+
+    public void imgOut(String outputFile,String format,boolean resize) throws IOException{
+        outputFile+="_resize."+format;
+        String cam = getClass().getResource("/resources/").toString().replace("/","\\");
+        File path = null;
+
+        if(resize==true){
+            path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
+        }else{
+            path = new File("./out/production/AscImage/resources/"+outputFile);
+        }
+
         ImageIO.write(this.img,format,path);
         System.out.println("Created: "+path.getAbsolutePath());
     }
@@ -76,20 +93,6 @@ public class ImageParser {
 
         return result;
     }
-    public int[][] convertTo2DUsingGetRGB() {
-        int width = this.img.getWidth();
-        int height = this.img.getHeight();
-        FastRGB image = new FastRGB(this.img);
-        int[][] result = new int[height][width];
-
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                result[row][col] = image.getRGB(col, row);
-            }
-        }
-
-        return result;
-    }
 
     public int[][] getBrightness(){
         int w = this.img.getWidth();
@@ -129,5 +132,18 @@ public class ImageParser {
             System.out.println("");
         }
     }
+
+    public BufferedImage resizeImage(Integer imgWidth, Integer imgHeight) {
+        BufferedImage originalImage = this.img;
+        int type = originalImage.getType();
+        BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, imgWidth, imgHeight, null);
+        g.dispose();
+
+        return resizedImage;
+    }
+
+
 
 }
