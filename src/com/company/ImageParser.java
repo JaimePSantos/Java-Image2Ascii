@@ -28,11 +28,18 @@ public class ImageParser {
         this.img = image;
     }
 
+    public int getWidth(){
+
+        return this.img.getWidth();
+    }
+
+    public int getHeight(){
+
+        return this.img.getHeight();
+    }
 
     public void imgOut(String outputFile,String format) throws IOException{
         outputFile+="."+format;
-        String cam = getClass().getResource("/resources/").toString().replace("/","\\");
-        System.out.println(cam);
         File path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
         ImageIO.write(this.img,format,path);
         System.out.println("Created: "+path.getAbsolutePath());
@@ -52,17 +59,6 @@ public class ImageParser {
         ImageIO.write(this.img,format,path);
         System.out.println("Created: "+path.getAbsolutePath());
     }
-
-    public int getWidth(){
-
-        return this.img.getWidth();
-    }
-
-    public int getHeight(){
-
-        return this.img.getHeight();
-    }
-
 
     public int[][] getBrightness(){
         int w = this.img.getWidth();
