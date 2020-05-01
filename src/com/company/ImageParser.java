@@ -18,6 +18,15 @@ public class ImageParser {
         System.out.println("Image successfully loaded.");
     }
 
+    public ImageParser(){
+        this.img = null;
+        this.path = null;
+    }
+
+    public ImageParser(BufferedImage image){
+        this.img = image;
+    }
+
 
     public void imgOut(String outputFile,String format) throws IOException{
         outputFile+="."+format;
@@ -34,9 +43,9 @@ public class ImageParser {
         File path = null;
 
         if(resize==true){
-            path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
-        }else{
             path = new File("./out/production/AscImage/resources/"+outputFile);
+        }else{
+            path = new File("./out/production/AscImage/resources/outimg/"+outputFile);
         }
 
         ImageIO.write(this.img,format,path);
@@ -44,10 +53,12 @@ public class ImageParser {
     }
 
     public int getWidth(){
+
         return this.img.getWidth();
     }
 
     public int getHeight(){
+
         return this.img.getHeight();
     }
 
@@ -133,13 +144,17 @@ public class ImageParser {
         }
     }
 
-    public BufferedImage resizeImage(Integer imgWidth, Integer imgHeight) {
+    public BufferedImage resizeImage(Integer imgWidth, Integer imgHeight) throws IOException {
         BufferedImage originalImage = this.img;
         int type = originalImage.getType();
         BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, imgWidth, imgHeight, null);
         g.dispose();
+        ImageParser resImg = new ImageParser(resizedImage);
+//        File path = new File("./out/production/AscImage/resources/merotest_resize.jpg");
+//        ImageIO.write(resizedImage,"jpg",path);
+        resImg.imgOut("merotest1","jpg",true);
 
         return resizedImage;
     }

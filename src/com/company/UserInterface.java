@@ -34,7 +34,7 @@ public class UserInterface {
                 continue;
             }
             else if(cmd.equals("resize")){
-                this.resize(img,img.getWidth()-100,img.getHeight()-100);
+                this.resize(img,50,50);
                 continue;
             }
             else{
@@ -56,8 +56,8 @@ public class UserInterface {
 
     public void resize(ImageParser img, Integer imgWidth, Integer imgHeight) throws IOException {
         if(imgWidth>0&&imgHeight>0){
-            BufferedImage resizedImage = img.resizeImage(imgWidth,imgHeight);
-            img.imgOut("merotest1","jpg",true);
+            img.resizeImage(imgWidth,imgHeight);
+//            img.imgOut("merotest1","jpg",true);
         }
 
     }
