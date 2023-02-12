@@ -70,7 +70,7 @@ public class ImageParser {
         int h = this.img.getHeight();
         int[][] brightness = new int[h][w];
         for (int row = 0; row < h; row++) {
-            for (int col = 0; col < h; col++) {
+            for (int col = 0; col < w; col++) {
                 int p = this.img.getRGB(col, row);
                 int a = (p >> 24) & 0xff;
                 int r = (p >> 16) & 0xff;
@@ -114,9 +114,10 @@ public class ImageParser {
         if ( file == true ) {
             char[][] asciMatrix = this.ascMatrix.brightnessToAscii();
             int h = this.img.getHeight();
+            int w = this.img.getWidth();
             FileWriter writer = new FileWriter(this.imgName + ".txt");
             for (int row = 0; row < h; row++) {
-                for (int col = 0; col < h; col++) {
+                for (int col = 0; col < w; col++) {
                     writer.write(asciMatrix[row][col] + "");
                 }
                 writer.write("\n");
@@ -125,7 +126,6 @@ public class ImageParser {
         } else {
             this.printAsci();
         }
-
 
     }
 

@@ -27,7 +27,7 @@ public class AscMatrix {
     public char[][] brightnessToAscii() {
         int a = 0;
         for (int row = 0; row < this.height; row++) {
-            for (int col = 0; col < this.height; col++) {
+            for (int col = 0; col < this.width; col++) {
                 a = (int) Math.floor(this.brightMatrix[row][col] / 4);
                 this.ascMatrix[row][col] = ascCodeArray[a];
                 System.out.print(this.ascMatrix[row][col]);
